@@ -1,0 +1,244 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{relsize}
+\usepackage{fancyvrb}
+\usepackage{import}
+\usepackage{float}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usetikzlibrary{shapes.geometric,fit}
+
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor={0 0 1}
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+\newtheorem*{theorem}{Theorem}
+
+\theoremstyle{lemma}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem*{statement}{Statement}
+\newtheorem*{definition}{Definition}
+\newtheorem*{claim}{Claim}
+
+\newcommand{\contra}{\Rightarrow\!\Leftarrow}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zeq}{\mathbb{Z}_{\geq 0}}
+\newcommand{\Zg}{\mathbb{Z}_{>0}}
+\newcommand{\Req}{\mathbb{R}_{\geq 0}}
+\newcommand{\Rg}{\mathbb{R}_{>0}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Ha}{\mathbb{H}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lpnorm}[2]{\left|\left|{#1}\right|\right|_{L_{#2}}}
+\DeclareMathOperator{\ima}{im}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\real}{Re}
+\DeclareMathOperator{\imag}{Im}
+\DeclareMathOperator{\diver}{div}
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\inter}{int}
+\DeclareMathOperator{\Dr}{Dr}
+\DeclareMathOperator{\Jac}{Jac}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\res}{res}
+\allowdisplaybreaks
+
+\newcommand{\incfig}[1]{\input{./figures/#1.pdf_tex}}
+\graphicspath{ {./figures/} }
+
+\title{Estimating Fractional Brownian Motion with Noise}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Suppose we have some fBM with stochastic volatility, \(X_t\), and some noisy process that we are able to observe: \(Y_t = X_t + \rho Z_t\) where \(\rho > 0\) and \((Z_t)_{t \geq 0}\) are i.i.d. \(N(0,1)\) variables. We would like to be able to extract the signal from the noise, and to somehow estimate both \(H\) and \(\sigma\). To do so, we will consider weighted averages of \(Y_t\) at different time-points to eliminate the noise. In particular, we will take the following:
+
+\begin{definition}
+  For \(g: [0,1] \rightarrow \R\) and some stochastic process \(X_t\), put
+  \begin{gather}
+    k_n = \frac{n^\kappa}{\theta} \\
+    g^n_j = g\left( \frac{j}{k_n} \right) \\
+    \overline{Y}(g)^n_i = \sum_{j=1}^{k_n-1}g^n_j\left( Y_{\frac{i+j-1}{n}} - Y_{\frac{i+j-1}{n}} \right) = \sum_{j=1}^{k_n-1}g^n_j\Delta_{i+j-1}^n Y \\
+    \widehat{Y}(g)^n_i = \sum_{j=1}^{k_n}\left(g^n_j - g^n_{j-1}\right)^2\left(\Delta_{i+j-1}^n Y\right)^2 = \sum_{j=1}^{k_n}\left(\Delta g^n_j\right)^2\left(\Delta_{i+j-1}^n Y\right)^2
+  \end{gather}
+\end{definition}
+
+We will be interested in the following variation,
+\begin{equation}
+  V(g)^{n,f}_T(Y) = \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor}f\left( \frac{\overline{Y}(g)^n_i}{\left( k_n/n \right)^H}, \frac{\widehat{Y}(g)^n_i}{\left( k_n/n \right)^{2H}} \right)
+\end{equation}
+where \(f\) is some function of our choosing.
+
+Our final goal is the next theorem:
+\begin{theorem}
+  Given some fBM with measurement error, 
+  \begin{equation}
+    Y_t = X_t + \rho Z_t
+  \end{equation}
+  where
+  \begin{equation}
+    X_t = X_0 + \int_0^tb_sds + K_H^{-\frac{1}{2}}\int_0^t(t-s)^{H - \frac{1}{2}}\sigma_sdB_s
+  \end{equation}
+  if we have the following conditions,
+  \begin{enumerate}
+    \item \(f: \R^L \rightarrow \R\) is \(C^2\) with all partial derivatives up to order 2 of at most polynomial growth.
+    \item \(b, \sigma\) is of size 1 (that is, \(||b_s||_{L_p}, ||\sigma_s||_{L_p}\) are bounded) and adapted.
+    \item \(\sigma\) is \(L^2\)-continuous.
+  \end{enumerate}
+  the we get the following convergence:
+  TODO
+\end{theorem}
+
+
+\pagebreak
+DRAFTS AND SNIPPETS: NOT FINAL OR EVEN COHERENT!
+
+Truncation is taken as follows:
+\begin{equation}
+  \Delta_{i+j-1}^{n,\epsilon} Y =  \int_{\frac{i}{n}-\epsilon}^{\frac{i+j-1}{n}} \left[ \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} - \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} \right]\sigma_s dB_s + \rho\Delta_{i+j-1}^n Z
+\end{equation}
+At some point, I may refer to the fBM part here as \(X\).
+
+Similarly,
+\begin{gather}
+  \overline{Y}(g)^{n,\epsilon}_i = \sum_{j=1}^{k_n-1} g^n_j \Delta_{i+j-1}^{n,\epsilon} Y \\
+  \widehat{Y}(g)^{n,\epsilon}_i = \sum_{j=1}^{k_n-1} (\Delta g^n_j)^2 (\Delta_{i+j-1}^{n,\epsilon} Y)^2 \\
+  V(g)^{n,f}_T(Y) = \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{Y}(g)^n_i}{\nu_H}, \frac{\widehat{Y}(g)^n_i}{\nu_H} \right)
+\end{gather}
+where \(\nu_H\) is the appropriate normalization term, dependent on \(H\).
+
+We want to show that
+\[
+  \limsup_{n \rightarrow \infty} \E \left[ \left| V(g)^{n,f}_T(Y) - \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{Y}(g)^{n,\epsilon}_i}{\nu_H}, \frac{\widehat{Y}(g)^{n,\epsilon}_i}{\nu_H} \right) \right| \right] < C\epsilon
+\]
+
+The difference is composed of two parts:
+\begin{gather}
+  \frac{1}{n}\sum_{i=1}^{\left\lfloor n\epsilon \right\rfloor} f\left( \frac{\overline{Y}(g)^n_i}{\nu_H}, \frac{\widehat{Y}(g)^n_i}{\nu_H} \right) \\
+  \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor}\left[ f\left( \frac{\overline{Y}(g)^{n}_i}{\nu_H}, \frac{\widehat{Y}(g)^{n}_i}{\nu_H} \right) -  f\left( \frac{\overline{Y}(g)^{n,\epsilon}_i}{\nu_H}, \frac{\widehat{Y}(g)^{n,\epsilon}_i}{\nu_H} \right) \right]
+\end{gather}
+
+(5) has that \(f(\cdot)\) is of size \(1\), since \(f\) is assumbed to be of polynomial growth and we showed in ``step 0'' that the arguments are at worst of size \(1\). Then, \(\exists C > 0\) such that \((5) < C\epsilon\). Then, we want to show that as \(n \rightarrow \infty\), \((6) \rightarrow 0\).
+
+MVT reduces (6) to
+\begin{gather}
+  \frac{1}{n}\sum_{\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \begin{pmatrix} \partial_1 f(\xi_{1,i}^n) & \partial_2 f(\xi_{2,i}^n) \end{pmatrix} \cdot \begin{pmatrix} \frac{\overline{Y}(g)^{n,\epsilon}_i - \overline{Y}(g)^{n}_i}{\nu_H} & \frac{\widehat{Y}(g)^{n,\epsilon}_i - \widehat{Y}(g)^{n}_i}{\nu_H} \end{pmatrix}
+\end{gather}
+
+In particular, we have that the partial derivatives are of size 1, so all that matters is that the differences on the right \(\rightarrow 0\).
+
+For reference/clarity,
+\begin{gather}
+  \frac{\overline{Y}(g)^{n,\epsilon}_i - \overline{Y}(g)^{n}_i}{\nu_H} \\
+  \frac{\widehat{Y}(g)^{n,\epsilon}_i - \widehat{Y}(g)^{n}_i}{\nu_H}
+\end{gather}
+
+\begin{align}
+  \overline{Y}(g)^{n}_i - \overline{Y}(g)^{n,\epsilon}_i &= \sum_{j=1}^{k_n-1}g^n_i(\Delta_{i+j-1}^{n}Y - \Delta_{i+j-1}^{n,\epsilon}Y) \\
+                                                         &= \sum_{j=1}^{k_n-1}g^n_i\int_0^{\frac{i}{n}-\epsilon}\left[ \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} - \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} \right]\sigma_sdB_s \\
+                                                         \intertext{BDG:}
+  ||\overline{Y}(g)^{n}_i - \overline{Y}(g)^{n,\epsilon}_i||_{L_p} &\leq \E \left[ \left(\int_0^{\frac{i}{n}-\epsilon}\left[ \cdots \right]^2\sigma_s^2 ds\right)^{\frac{p}{2}} \right]^{\frac{1}{p}} \\
+                                                                   &\leq \left(\int_0^{\frac{i}{n}-\epsilon} [\cdots]^2||\sigma_s^2||_{L_{p/2}}ds\right)^{\frac{1}{2}}
+                                                                   \intertext{From fBM proof:}
+                                                                   \intertext{Since \(\sigma\) is of size 1,}
+                                                                   &\leq C_p \left( \int_0^{\frac{i}{n}-\epsilon} \left( \left( \frac{i+l}{n} - s \right)^{H-\frac{1}{2}} - \left( \frac{i+l-1}{n} -s \right)^{H-\frac{1}{2}} \right)^2ds\right) ^{\frac{1}{2}} \\
+                                                                   \intertext{Substituting \(r = \frac{i+l-1}{n}-s\),}
+                                                                   &= C_p \left( \int_{\epsilon + \frac{l-1}{n}}^{\frac{i+l-1}{n}} \left( \left( r + \frac{1}{n} \right)^{H-\frac{1}{2}} - r^{H-\frac{1}{2}} \right)^2dr\right) ^{\frac{1}{2}} \\
+                                                                   &\leq C_p \left( \int_\epsilon^{\infty} \left( \left( r + \frac{1}{n} \right)^{H-\frac{1}{2}} - r^{H-\frac{1}{2}} \right)^2dr\right) ^{\frac{1}{2}} \\
+                                                                   \intertext{By MVT,}
+                                                                   &\leq C_p \left( \int_\epsilon^{\infty} \left( \frac{1}{n}\left( H-\frac{1}{2} \right)r^{H-\frac{3}{2}} \right)^2dr\right) ^{\frac{1}{2}} \\
+                                                                   &\leq C_p \frac{1}{n}\left| H-\frac{1}{2} \right|\left( \int_\epsilon^{\infty} \left( r^{H-\frac{3}{2}} \right)^2dr\right) ^{\frac{1}{2}} \\
+                                                                   &= C_\epsilon \frac{1}{n}
+\end{align}
+
+Then, considering the size of (10), it is \(\sim k_n \cdot 1 \cdot n^{-1}\).
+
+Next,
+\begin{align}
+  \widehat{Y}(g)^{n}_i - \widehat{Y}(g)^{n,\epsilon}_i &= \sum_{j=1}^{k_n-1}(\Delta g^n_i)^2((\Delta_{i+j-1}^{n}Y)^2 - (\Delta_{i+j-1}^{n,\epsilon}Y^2) \\
+                                                       &= \sum_{j=1}^{k_n-1}(\Delta g^n_i)^2(\Delta_{i+j-1}^{n}Y - \Delta_{i+j-1}^{n,\epsilon}Y)(\Delta_{i+j-1}^{n}Y + \Delta_{i+j-1}^{n,\epsilon}Y) \\
+                                                       &\sim k_n \cdot \frac{1}{k_n^2} \cdot n^{-1} \cdot 1 = \frac{1}{k_n \cdot n}
+\end{align}
+
+Now we bring back the normalization term \(\nu_H\). Recall:
+
+We will see that we actually need strict inequalities for the upper bounds.
+
+If \( H \in (0, \frac{1}{2})\): (8) has size \(k_n \cdot \frac{1}{n} \cdot \frac{n^H}{\sqrt{k_n}} = \sqrt{k_n} \cdot n^{H - 1} = n^{H - 1 + \frac{\kappa}{2}}\). Since \(\kappa < 2 - 2H\), we have that \(H - 1 + \frac{\kappa}{2} < 0\).
+
+Simiarly, (9) has size \(\frac{1}{k_n \cdot n} \cdot \frac{n^H}{\sqrt{k_n}} = \frac{n^{H-1}}{k_n^{\frac{3}{2}}} = n^{H - 1 - \frac{3}{2}\kappa}\) which is \(o(1)\).
+
+If \( H \in (\frac{1}{2}, 1)\): (8) has size \(k_n \cdot \frac{1}{n} \cdot \frac{n^H}{k_n^H} = k_n^{1-H} \cdot n^{H - 1} = n^{(1 - \kappa)(H - 1)}\). Since \(\kappa < 1\), we have that \(1 - \kappa > 0, H - 1 < 0\).
+
+Simiarly, (9) has size \(\frac{1}{k_n \cdot n} \cdot \frac{n^H}{k_n^H} = \frac{n^{H-1}}{k_n^{H + 1}} = n^{H - 1 - (H + 1)\kappa}\) which is \(o(1)\).
+
+i am hungry :(
+
+Next step is to discretize \(\sigma\) and remove the fBM portion from the second argument; we wish to show that
+\begin{equation}
+  \E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ f\left( \frac{\overline{Y}(g)^{n,\epsilon}_i}{\nu_H}, \frac{\widehat{Y}(g)^{n,\epsilon}_i}{\nu_H} \right) - f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{\nu_H}, \frac{\rho^2\widehat{Z}(g)^n_i}{\nu_H}\right)\right] \right| \right]
+\end{equation}
+is bounded by some continuity condition on \(\sigma\), probably dependent on \(\epsilon\).
+
+Via MVT, the difference becomes
+\begin{equation}
+  \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \begin{pmatrix} \partial_1 f(\xi_{1,i}^n) & \partial_2 f(\xi_{2,i}^n) \end{pmatrix} \cdot \begin{pmatrix} \frac{\overline{X}(g)^{n,\epsilon}_i - \sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i}{\nu_H} & \frac{\widehat{Y}(g)^{n,\epsilon}_i - \rho^2\widehat{Z}(g)^{n}_i}{\nu_H} \end{pmatrix}
+\end{equation}
+
+Again, all we care about are the differences:
+\begin{gather}
+  \frac{\overline{X}(g)^{n,\epsilon}_i - \sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i}{\nu_H} \\
+  \frac{\widehat{Y}(g)^{n,\epsilon}_i - \rho^2\widehat{Z}(g)^{n}_i}{\nu_H}
+\end{gather}
+
+Handling (25) first, we have that
+\begin{align}
+  \overline{X}(g)^{n,\epsilon}_i - \sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i &= \sum_{j=1}^{k_n-1}g^n_i\left( \Delta_{i+j-1}^{n,\epsilon}X - \sigma_{\frac{i}{n}-\epsilon}\Delta_{i+j-1}^{n,\epsilon}B^H\right) \\
+    \lpnorm{\Delta_{i+l}^{n,\epsilon}X - \sigma_{\frac{i}{n}-\epsilon}\Delta_{i+l}^{n,\epsilon}B^H}{2} &= \lpnorm{\int_{\frac{i}{n} - \epsilon}^{\frac{i+l}{n}}\left( \left( \frac{i+l}{n} - s \right)^{H-\frac{1}{2}} - \left( \frac{i+l-1}{n} - s \right)^{H-\frac{1}{2}}\right) (\sigma_s - \sigma_{\frac{i}{n} - \epsilon})dB_s}{2} \\
+    \intertext{By Ito's,}
+                                                                              &= \left(\int_{\frac{i}{n} - \epsilon}^{\frac{i+l}{n}}\E\left[\left( \left( \frac{i+l}{n} - s \right)^{H-\frac{1}{2}} - \left( \frac{i+l-1}{n} - s \right)^{H-\frac{1}{2}}\right)^2 (\sigma_s - \sigma_{\frac{i}{n} - \epsilon})^2\right]ds\right)^{\frac{1}{2}} \\
+                                                                              &= \left(\int_{\frac{i}{n} - \epsilon}^{\frac{i+l}{n}}\left( \left( \frac{i+l}{n} - s \right)^{H-\frac{1}{2}} - \left( \frac{i+l-1}{n} - s \right)^{H-\frac{1}{2}}\right)^2 \E\left[(\sigma_s - \sigma_{\frac{i}{n} - \epsilon})^2\right]ds\right)^{\frac{1}{2}} \\
+                                                                              \intertext{Note that for sufficiently large \(n\), \(\frac{l}{n} < \epsilon\), so we have that}
+    \E\left[(\sigma_s - \sigma_{\frac{i}{n} - \epsilon})^2\right] &\leq \sup_{\substack{0 \leq r,s \leq T \\ |r-s| \leq 2\epsilon}}\E\left[(\sigma_s - \sigma_r)^2\right] \\
+    \intertext{Abbreviate this last supremum to \(S\) and take \(r = \frac{i+l}{n}-s\):}
+                                                                  &\leq S^{\frac{1}{2}}\left(\int^{\epsilon+\frac{l}{n}}_0\left(\left(r - \frac{1}{n}\right)^{H-\frac{1}{2}} -  r^{H-\frac{1}{2}}\right)^2 dr\right)^{\frac{1}{2}} \\
+                                                                  \intertext{With \(u = nr\),}
+                                                                  &= S^{\frac{1}{2}}\left(\int^{n\epsilon+1}_0\left(\left(\frac{u}{n} - \frac{1}{n}\right)^{H-\frac{1}{2}} -  \left( \frac{u}{n} \right)^{H-\frac{1}{2}}\right)^2 n^{-1}du\right)^{\frac{1}{2}} \\
+                                                                  &= S^{\frac{1}{2}}n^{-H}\left(\int^{n\epsilon+1}_0\left(\left(u - 1\right)^{H-\frac{1}{2}} -  u^{H-\frac{1}{2}}\right)^2 du\right)^{\frac{1}{2}} \\
+                                                                  &\leq S^{\frac{1}{2}}n^{-H}\left(\int^{\infty}_0\left(\left(u - 1\right)^{H-\frac{1}{2}} -  u^{H-\frac{1}{2}}\right)^2 du\right)^{\frac{1}{2}} \\
+                                                                  &= CS^{\frac{1}{2}}n^{-H}
+\end{align}
+
+PROBLEM! Returning to (27), we get that the \(L_2\) norm will be bounded by \(\sum^{k_n - 1} CS^{\frac{1}{2}}n^{-H} \cdot \nu_H^{-1}\), which \(\rightarrow \infty\) as \(n \rightarrow \infty\) if you fix \(\epsilon\).
+
+\end{document}
