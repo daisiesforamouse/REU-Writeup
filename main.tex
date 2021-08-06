@@ -114,7 +114,7 @@ Suppose we have some fBM with stochastic volatility, \(X_t\), and some noisy pro
 
 We will ultimately show the following theorem:
 \begin{theorem}
-  Given some fBM with measurement error, 
+  Given some fBM with measurement error,
   \begin{equation}
     Y_t = X_t + \rho Z_t
   \end{equation}
@@ -125,7 +125,7 @@ We will ultimately show the following theorem:
   if we have the following conditions, % TODO: Explain what K_H is?
   \begin{enumerate}
     \item \(f: \R^L \rightarrow \R\) is \(C^2\) with all partial derivatives up to order 2 of at most polynomial growth.
-    \item \(g: [0,1] \rightarrow \R\) is piecewise \(C^2\).
+    \item \(g: [0,1] \rightarrow \R\) is \(C^2\).
     \item \(b, \sigma\) are of size 1 (that is, \(||b_s||_{L_p}, ||\sigma_s||_{L_p}\) are bounded) and adapted.
     \item \(\sigma\) is \(L^2\)-continuous.
     \item \(\kappa \in \left(\frac{2H}{2H+1}, 1\right)\).
@@ -148,7 +148,7 @@ Unless otherwise mentioned, the above conditions are assumed in the following le
 
 To motivate the normalization term in \(V(g)_T^{n,f}(Y)\), we will first compute a bound on the second moment of an averaged fBM with Hurst parameter \(H\):
 \begin{prop}
-  For \(B^H_t = \int_0^t(t-s)^{H - \frac{1}{2}}\sigma_sdB_s\), 
+  For \(B^H_t = \int_0^t(t-s)^{H - \frac{1}{2}}\sigma_sdB_s\),
   \begin{equation}
     \E\left[ \left(\overline{B^H}(g)^n_i\right)^2 \right]^{\frac{1}{2}} \leq C\left( \frac{k_n}{n} \right)^H
   \end{equation}
@@ -161,7 +161,7 @@ To motivate the normalization term in \(V(g)_T^{n,f}(Y)\), we will first compute
     &\begin{aligned}
       \mathllap{\E\left[ \left(\overline{B^H}(g)^n_i\right)^2 \right]} &= \E\left[ \left( \sum_{j=1}^{k_n-1} g^n_j \Delta_{i+j-1}^nB^H \right)^2 \right] \\
                                                                      &= \E\left[ \sum_{j=1}^{k_n-1} (g^n_j\Delta_{i+j-1}^nB^H)^2 + 2\sum_{j=1}^{k_n-2}\sum_{l=j+1}^{k_n-1} g^n_jg^n_l\Delta_{i+j-1}^nB^H\Delta_{i+l-1}^nB^H \right]
-    \end{aligned} \\  
+    \end{aligned} \\
     \intertext{Abbreviating \(t = \frac{i+j-2}{n}, h = \frac{1}{n}, r = l-j\),}
     &\begin{aligned}
       \mathllap{} &= \sum_{j=1}^{k_n-1} (g^n_j)^2 \E\left[ \int_0^t \left[ \left( t + h - s \right)^{H-\frac{1}{2}} - \left( t - s \right)^{H - \frac{1}{2}}_+ \right]\sigma_s dB_s \right]^2 \\ &\hspace*{0.5cm}+2\sum_{j=1}^{k_n-2}\sum_{l=j+1}^{k_n-1} g^n_j g^n_l \E \left[ \int_0^t \left[ \left( t + h - s \right)^{H-\frac{1}{2}} - \left( t - s \right)^{H - \frac{1}{2}}_+ \right]\sigma_s dB_s \right. \\ &\hspace*{4.1cm} \left. \cdot \int_0^t \left[ \left( t + (r+1)h - s \right)^{H-\frac{1}{2}} - \left( t + rh - s \right)^{H - \frac{1}{2}}_+ \right]\sigma_s dB_s \vphantom{\int}\right] % Genuinely a terrible LaTeX hack but whatever lmao godspeed to whoever has to read this next
@@ -229,7 +229,7 @@ The next thing to consider is the drift in the fBM: \(X_0 + A_0 = X_0 + \int_0^t
   \E\left[\left|\frac{\widehat{Y}(g)^n_i - \widehat{U}(g)^n_i}{(k_n/n)^{2H}}\right|\right] &\leq \frac{n^{2H}}{k_n^{2H}}\sum_{j=1}^{k_n} \left(\frac{g'\left( \xi^n_i \right)}{k_n}\right)^2Cn^{-1} \\
                                                                                            &\leq \frac{n^{2H-1}}{k_n^{2H+1}}
   \end{align}
-  which, since \(\kappa > \frac{2H}{2H + 1} > \frac{2H-1}{2H+1}\), \(\rightarrow 0\) as \(n \rightarrow \infty\). To conclude, the original expectation is bounded by 
+  which, since \(\kappa > \frac{2H}{2H + 1} > \frac{2H-1}{2H+1}\), \(\rightarrow 0\) as \(n \rightarrow \infty\). To conclude, the original expectation is bounded by
   \begin{equation}
     \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor}C\left( \E\left[\left|\frac{\overline{Y}(g)^n_i - \overline{U}(g)^n_i}{(k_n/n)^H}\right|\right] + \E\left[\left|\frac{\widehat{Y}(g)^n_i - \widehat{U}(g)^n_i}{(k_n/n)^{2H}}\right|\right]  \right) \rightarrow 0
   \end{equation}
@@ -271,18 +271,125 @@ What we would like to be able to do is to truncate this interval arbitrarily clo
   \begin{equation}
     \Delta_{i+j-1}^{n,\epsilon} B^H_t =  \int_{\frac{i}{n}-\epsilon}^{\frac{i+j-1}{n}} \left[ \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} - \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} \right]\sigma_s dB_s
   \end{equation}
-  
+
   Similarly, we truncate \(U_t\) as follows:
   \begin{equation}
     \Delta_{i+j-1}^{n,\epsilon} U_t = \Delta_{i+j-1}^{n,\epsilon} B^H_t + \Delta_{i+j-1}^n \rho Z
   \end{equation}
 \end{definition}
 
+In order for this truncation to be a reasonable endeavor, we need the error we are making to be small; the amount which we discard must vanish in the limit if we take \(\epsilon \rightarrow 0\).
+
 \begin{lemma}
   \begin{equation}
     \limsup_{n \rightarrow \infty} \E \left[ \left| V(g)^{n,f}_T(Y) - \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right| \right] < C\epsilon
-  \end{equation} 
+  \end{equation}
 \end{lemma}
+
+\begin{proof}
+  % TODO
+\end{proof}
+
+\begin{lemma}
+  \begin{align}
+    \phantom{}
+    \begin{aligned}
+      &\lim_{\epsilon \rightarrow 0}\lim_{n \rightarrow \infty}\E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right. \right. \right. \\
+      & \hspace*{2cm} - \left. \left. \left. f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^{2H}}\right) \right] \right| \right] = 0
+    \end{aligned}
+  \end{align}
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+Now, we are able to center to the conditional expectation, with the ultimate goal of computing an explicit form:
+\begin{lemma}
+  \begin{align}
+    \phantom{}
+    &\begin{aligned}
+      \mathllap{} &\frac{1}{n}\sum_{i = \left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ \vphantom{\E \left[ f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{2H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^H}\right) \right] } f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{2H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^H}\right) \right. \\ &\hspace*{2.1cm} - \left. \E\left[ f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{2H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^H}\right) \big| \mathcal{F}_{\frac{i-1}{n}} \right] \vphantom{\frac{1}{n}\sum_{i = \left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor}} \right] \overset{\mathbb{P}}{\rightarrow} 0
+    \end{aligned}
+  \end{align}
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+  Define
+  \begin{equation}
+    \mu_f(v_1, v_2) = \E\left[ f(\sqrt{v_1}Z_1 + \sqrt{v_2}Z_2, 2v^2) \right]
+  \end{equation}
+  where \(Z_1, Z_2 \sim N(0,1)\) and are i.i.d.
+\end{definition}
+
+\begin{lemma}
+  \begin{align}
+    \phantom{}
+    &\begin{aligned}
+      \mathllap{} &\lim_{n \rightarrow \infty} \E\left[ f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{2H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^H}\right) \big| \mathcal{F}_{\frac{i-1}{n}} \right] \\
+                  &\hspace*{2cm} \rightarrow \mu_f\left( \frac{\sigma^2_{\frac{i}{n}-\epsilon}}{(k_n/n)^{2H}}\sum_{j,l = 1}^{k_n-1} g^n_jg^n_l\Gamma^H_{|j-l|}, \frac{\rho^2}{(k_n/n)^{2H}}\sum_{j=1}^{k_n}(\Delta g^n_j)^2 \right)
+    \end{aligned}
+  \end{align}
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{lemma}
+  \begin{align}
+    \phantom{}
+    &\begin{aligned}
+      \mathllap{} &\lim_{\epsilon \rightarrow 0}\E\left[ \left| \frac{1}{n}\sum_{i = \left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor}\mu_f\left( \frac{\sigma^2_{\frac{i}{n}-\epsilon}}{(k_n/n)^{2H}}\sum_{j,l = 1}^{k_n-1} g^n_jg^n_l\Gamma^H_{|j-l|}, \frac{\rho^2}{(k_n/n)^{2H}}\sum_{j=1}^{k_n}(\Delta g^n_j)^2 \right) \right.\right. \\
+                  &\hspace*{2cm} \left.\left. - \int_0^T\mu_f\left(\sigma_{s}^2\mu_f(\nu(g), \Theta^2\rho^2\int_0^1g'(r)^2dr)\right) \vphantom{\E\left[ \left| \frac{1}{n}\sum_{i = \left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor}\mu_f\left( \frac{\sigma^2_{\frac{i}{n}-\epsilon}}{(k_n/n)^{2H}}\sum_{j,l = 1}^{k_n-1} g^n_jg^n_l\Gamma^H_{|j-l|}, \frac{\rho^2}{(k_n/n)^{2H}}\sum_{j=1}^{k_n}(\Delta g^n_j)^2 \right) \right.\right.} \right|\right] = 0
+      \end{aligned}
+  \end{align}
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+The next theorem is just putting steps together. Restating it from before,
+\begin{theorem}
+  Given some fBM with measurement error,
+  \begin{equation}
+    Y_t = X_t + \rho Z_t
+  \end{equation}
+  where
+  \begin{equation}
+    X_t = X_0 + A_t + B_t^H = X_0 + \int_0^tb_sds + K_H^{-\frac{1}{2}}\int_0^t(t-s)^{H - \frac{1}{2}}\sigma_sdB_s
+  \end{equation}
+  if we have the following conditions, % TODO: Explain what K_H is?
+  \begin{enumerate}
+    \item \(f: \R^L \rightarrow \R\) is \(C^2\) with all partial derivatives up to order 2 of at most polynomial growth.
+    \item \(g: [0,1] \rightarrow \R\) is piecewise \(C^2\).
+    \item \(b, \sigma\) are of size 1 (that is, \(||b_s||_{L_p}, ||\sigma_s||_{L_p}\) are bounded) and adapted.
+    \item \(\sigma\) is \(L^2\)-continuous.
+    \item \(\kappa \in \left(\frac{2H}{2H+1}, 1\right)\).
+  \end{enumerate}
+  then we get the following convergence:
+  \begin{equation}
+    V(g)^{n,f}_T(Y) = \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor}f\left( \frac{\overline{Y}(g)^n_i}{\left( k_n/n \right)^H}, \frac{\widehat{Y}(g)^n_i}{\left( k_n/n \right)^{2H}} \right) \overset{\mathbb{P}}{\rightarrow} \int_0^T \mu_f\left( \sigma_s^2\eta\left( g \right), \Theta^2\rho^2 \int_0^1g'(r)^2dr \right)ds
+  \end{equation}
+  where
+  \begin{gather}
+    \Theta =
+    \begin{cases}
+      0 & \kappa \neq \frac{2H}{2H+1} \\
+      \theta &  \kappa = \frac{2H}{2H+1}
+    \end{cases} \\
+    \eta(g) = 2H\int_0^1g(x)\left(g(1)(1-x)^{2H-1}dx + \int_x^1(y-x)^{2H-1}g'(y)dy\right)dx
+  \end{gather}
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
 
 % ----------------------------------------------------------------------------------------------------------------------
 \pagebreak
