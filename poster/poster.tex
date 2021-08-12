@@ -42,7 +42,7 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
   \graphicspath{{figures/}}
   \title[fBM Estimation Under Noise]{Estimating Fractional Brownian Motion With Noise}
-  \author[Chen & Jia & Monier & Shen]{David Chen, Wangdong Jia, Bryce Monier, Annie Shen}
+  \author[Chen & Jia & Monier & Shen]{David Chen, Wangdong Jia, Bryce Monier, Shiyang Shen}
   \institute[Columbia University]{Columbia Math Undergraduate Summer Research Program}
   \date{Jul. 31th, 2007}
 
@@ -54,7 +54,7 @@
     \begin{columns}[t]
       \begin{column}{0.28\linewidth}
         \begin{block}{Introduction}
-          Suppose we have some unknown fBM with stochastic volatility, \(X_t\), and some process with added noise that we are able to observe: \(Y_t = X_t + \rho Z_t\).  We would like to be able to extract the signal from the noise, and to somehow estimate both \(H\) and \(\sigma\). To do so, we will consider weighted averages of \(Y_t\) at different time-points to eliminate the noise. Estimators of \(H\) and the integrated volatility have been previously shown for fBM without noise and standard Brownian motion with noise; the main result of this project is to combine both generalizations.
+          Suppose we have some unknown fBM with stochastic volatility, \(X_t\), and some process with added noise that we are able to observe: \(Y_t = X_t + \rho Z_t\).  We would like to be able to extract the signal from the noise, and to somehow estimate both \(H\) and \(\sigma\). To do so, we will consider weighted averages of \(Y_t\) at different time-points to eliminate the noise. Estimators of \(H\) and the integrated volatility have been previously shown for fBM without noise [2] and without stochastic volatility [3]; the main result of this project is to combine both generalizations.
         % Fractional Brownian Motion (fBM) is an important generalization of Brownian Motion parameterized by the Hurst index. The Hurst index is a real-valued number \(H \in (0,1)\) that characterizes continuous processes that are ``rougher'' (when \(H < 1/2\)) or ``smoother'' (when \(H > 1/2\)) than standard Brownian motion, which is exactly defined by fBM with \(H = 1/2\). In this presentation, we show how one may construct an estimator for an unknown Hurst index \(H\) given a single realized path of an fBM whose values are only observed with measurement noise. The main tool to develop this estimator is a theorem considering what quadratic variation-type functionals of these processes would converge to. The proof of this theorem is the main result of this REU project and adapts previously seen techniques such as pre-averaging, truncation and discretization to our current setting. Our results also allow us to derive estimators for \(H\) in the presence of stochastic volatility.
         \end{block}
         \begin{block}{Background and Setup}
@@ -97,16 +97,17 @@
           \end{enumerate}
           then we get the following convergence:
           \begin{equation*}
-            V(g)^{n,f}_T(Y) = \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor}f\left( \frac{\overline{Y}(g)^n_i}{\left( k_n/n \right)^H}, \frac{\widehat{Y}(g)^n_i}{\left( k_n/n \right)^{2H}} \right) \overset{\mathbb{P}}{\rightarrow} \int_0^T \mu_f\left( \sigma_s^2\eta\left( g \right), \Theta^2\rho^2 \int_0^1g'(r)^2dr \right)ds
+            V(g)^{n,f}_T(Y) = \frac{1}{n}\sum_{i=1}^{\left\lfloor nT \right\rfloor}f\left( \frac{\overline{Y}(g)^n_i}{\left( k_n/n \right)^H}, \frac{\widehat{Y}(g)^n_i}{\left( k_n/n \right)^{2H}} \right) \overset{\mathbb{P}}{\rightarrow} \int_0^T \mu_f\left( \sigma_s^2\eta^H\left( g \right), \Theta^2\rho^2 \int_0^1g'(r)^2dr \right)ds
           \end{equation*}
           where
           \begin{gather*}
+            \mu_f(v_1, v_2) = \E\left[ f\left(v_1Z_2 + v_2Z_2, 2v_2\right) \right], \ Z_1, Z_2 \sim N(0, 1) \text{ i.i.d.} \\
             \Theta =
             \begin{cases}
               0 & \kappa \neq \frac{2H}{2H+1} \\
               \theta &  \kappa = \frac{2H}{2H+1}
             \end{cases} \\
-            \eta(g) = 2H\int_0^1g(x)\left(g(1)(1-x)^{2H-1}dx + \int_x^1(y-x)^{2H-1}g'(y)dy\right)dx
+            \eta^H(g) = 2H\int_0^1g(x)\left(g(1)(1-x)^{2H-1} + \int_x^1(y-x)^{2H-1}g'(y)dy\right)dx
           \end{gather*}
         \end{block}
 
@@ -115,27 +116,22 @@
           \begin{equation*}
             \lim_{n \rightarrow \infty} \E\left[ \left| V(g)^{n,f}_T(Y) - V(g)^{n,f}_T(U) \right| \right] = 0.
           \end{equation*}
-          Next, we \textit{truncate} the domain of integration in the stochastic integral to \(\epsilon\) of where we begin averaging; a truncated increment of fBM is defined as
-          \begin{equation*}
-            \Delta_{i+j-1}^{n,\epsilon} B^H_t =  \int_{\frac{i}{n}-\epsilon}^{\frac{i+j-1}{n}} \left[ \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} - \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} \right]\sigma_s dB_s.
-          \end{equation*}
-          With this, we get
-          \begin{equation*}
-            \limsup_{n \rightarrow \infty} \E \left[ \left| V(g)^{n,f}_T(U) - \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right| \right] < C\epsilon
-          \end{equation*}
+          We show also that one can truncate the the domain of integration to within \(\epsilon\) of where we first begin averaging, i.e. \(\frac{i}{n} - \epsilon\) while making only an error bounded by \(\epsilon\).
+          % Next, we \textit{truncate} the domain of integration in the stochastic integral to \(\epsilon\) of where we begin averaging; a truncated increment of fBM is defined as
+          % \begin{equation*}
+          %   \Delta_{i+j-1}^{n,\epsilon} B^H_t =  \int_{\frac{i}{n}-\epsilon}^{\frac{i+j-1}{n}} \left[ \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} - \left( \frac{i+j-1}{n} -s \right)^{H - \frac{1}{2}} \right]\sigma_s dB_s.
+          % \end{equation*}
+          % With this, we get
+          % \begin{equation*}
+          %   \limsup_{n \rightarrow \infty} \E \left[ \left| V(g)^{n,f}_T(U) - \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right| \right] < C\epsilon
+          % \end{equation*}
           We now \textit{discretize} the volatitlity by showing that
           \begin{align*}
             \phantom{}
             \begin{aligned}
-      &\lim_{\epsilon \rightarrow 0}\lim_{n \rightarrow \infty}\E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right. \right. \right. \\
-      & \hspace*{10cm} - \left. \left. \left. f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^{2H}}\right) \right] \right| \right] = 0
+      &\lim_{\epsilon \rightarrow 0}\lim_{n \rightarrow \infty}\E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ V(g)^{n,f}_T(Y) \right. \right. \right. - \left. \left. \left. f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^{2H}}\right) \right] \right| \right] = 0
             \end{aligned}
           \end{align*}
-        \end{block}
-      \end{column}
-
-      \begin{column}{0.28\linewidth}
-        \begin{block}{Sketch of the Proof (Cont.)}
           We now center to the conditional expectation:
           \begin{align*}
             \phantom{}
@@ -145,15 +141,45 @@
           \end{align*}
           Once we compute the expectation and take limits (\(n \rightarrow \infty\), \(\epsilon \rightarrow 0\)), we arrive at what we wanted.
         \end{block}
-        \begin{block}{Example}
-          TODO
+      \end{column}
+
+      \begin{column}{0.28\linewidth}
+        % \begin{block}{Sketch of the Proof (Cont.)}
+        % \end{block}
+        \begin{block}{Estimating \(H\)}
+          Changing the freqency of the averaging allows us to create an estimator for \(H\); consider taking \(f(x, y) = x^2\) and a suitable \(\kappa\) such that \(\Theta = 0\), such that 
+          \begin{align*}
+            V(g)^{n,f}_T(Y), \ V(g)^{\frac{n}{2},f}_T(Y) &= \frac{2}{n}\sum_{i=1}^{\left\lfloor nT/2 \right\rfloor} \left(\frac{\overline{Y}(g)^{n/2}_i}{(2k_n/n)^H}\right)^2
+          \end{align*}
+          both converge in probability to \( \int_0^T \sigma^2\eta^H(g) ds\), so
+          \[
+            \frac{1}{2} \log_2\left(\frac{\widetilde{V}(g)^{\frac{n}{2},f}_T(Y)}{\widetilde{V}(g)^{n,f}_T(Y)}\right) \overset{\mathbb{P}}{\rightarrow} H.
+          \]
+          where \(\widetilde{V}(g)^{n,f}_T(Y)\) is simply \(V(g)^{n,f}_T(Y)\) without the normalizing factor.
+          Furthermore, we can estimate the integrated volatility:
+          \[
+            \frac{V(g)^{n,f}_T(Y)}{\eta^{\hat{H}_n}(g)} \rightarrow \int_0^T\sigma^2_sds.
+          \]
         \end{block}
         \begin{block}{Simulations}
           TODO code vaguely works? maybe prob not ill do it later
         \end{block}
         \begin{block}{Acknowledgements}
-          TODO
+          {\small
+          First, we would like to thank Dr. Carsten Chong for his guidance and support in this project before, during, and after the research, as well as the Columbia Mathematics Undergraduate Summer Research Program.
+        }
         \end{block}
+
+        \begin{block}{References}
+          {\footnotesize
+          \begin{enumerate}
+            \item Jacod, J., Li, Y., Mykland, P. A., Podolskij, M., Vetter, M.: Microstructure noise in the continuous case: the pre-averaging approach. Stochastic Process. Appl. 119 (2009), no. 7, 2249-2276.
+            \item Corcuera, J. M., Hedevang, E., Pakkanen, M. S., Podolskij, M.: Asymptotic theory for Brownian semi-stationary processes with application to turbulence. Stochastic Process. Appl. 123 (2013), no. 7, 2552-2574.
+            \item Gloter, A, and Hoffmann, M.: Estimation of the Hurst parameter from discrete noisy data. Ann. Statist. 35 (2007), no. 5, 1947-1974.
+          \end{enumerate}
+        }
+        \end{block}
+
       \end{column}
     \end{columns}
   \end{frame}
