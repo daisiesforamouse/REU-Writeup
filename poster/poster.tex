@@ -125,7 +125,7 @@
           % \begin{equation*}
           %   \limsup_{n \rightarrow \infty} \E \left[ \left| V(g)^{n,f}_T(U) - \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} f\left( \frac{\overline{U}(g)^{n,\epsilon}_i}{(k_n/n)^H}, \frac{\widehat{U}(g)^{n,\epsilon}_i}{(k_n/n)^{2H}} \right) \right| \right] < C\epsilon
           % \end{equation*}
-          We now \textit{discretize} the volatitlity by showing that
+          We now \textit{discretize} the volatility by showing that
           \begin{align*}
             \phantom{}
             \begin{aligned}
@@ -161,13 +161,11 @@
             \frac{V(g)^{n,f}_T(Y)}{\eta^{\hat{H}_n}(g)} \rightarrow \int_0^T\sigma^2_sds.
           \]
         \end{block}
-        \begin{block}{Simulations}
-          TODO code vaguely works? maybe prob not ill do it later
+        \begin{block}{In Practice}
+          To compute such an estimator, one may take \(\kappa = \frac{2}{3}\) in order to guarantee that \(\Theta\) vanishes, in which case we can consistently (given large \(n\)) estimate \(H\) and \(\int_0^T \sigma_s^2ds\). Computing such estimators for simulated datasets in R is an ongoing effort, and associated code can be found at [4].
         \end{block}
         \begin{block}{Acknowledgements}
-          {\small
           First, we would like to thank Dr. Carsten Chong for his guidance and support in this project before, during, and after the research, as well as the Columbia Mathematics Undergraduate Summer Research Program.
-        }
         \end{block}
 
         \begin{block}{References}
@@ -176,6 +174,7 @@
             \item Jacod, J., Li, Y., Mykland, P. A., Podolskij, M., Vetter, M.: Microstructure noise in the continuous case: the pre-averaging approach. Stochastic Process. Appl. 119 (2009), no. 7, 2249-2276.
             \item Corcuera, J. M., Hedevang, E., Pakkanen, M. S., Podolskij, M.: Asymptotic theory for Brownian semi-stationary processes with application to turbulence. Stochastic Process. Appl. 123 (2013), no. 7, 2552-2574.
             \item Gloter, A, and Hoffmann, M.: Estimation of the Hurst parameter from discrete noisy data. Ann. Statist. 35 (2007), no. 5, 1947-1974.
+            \item https://github.com/DaisiesForAMouse/REU-Writeup
           \end{enumerate}
         }
         \end{block}

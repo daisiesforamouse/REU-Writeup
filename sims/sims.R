@@ -1,31 +1,6 @@
 library(somebm)
 library(numDeriv)
 
-##Estimating Brownian motion
-#n=100000
-#BM=fbm(hurst=0.5, n) # standard BM, n=number of points between 0 and 1
-#BM2=sqrt(2)*fbm(hurst=0.5, n) #BM with variance 2
-
-### Realized variance
-
-#QV=sum(diff(BM)^2)
-#QV2=sum(diff(BM2)^2)
-
-### Repeat this 1000 times
-
-#N=100
-#### vectors with estimates
-#est=rep(0,N) 
-#est2=rep(0,N)
-
-#### Repeat
-## for (i in 1:N) r
-##   BM=fbm(hurst=0.5, n) # standard BM
-##   BM2=sqrt(2)*fbm(hurst=0.5, n) #BM with variance 2
-##   est[i]=sum(diff(BM)^2)
-##   est2[i]=sum(diff(BM2)^2)
-## }
-
 ##Estimating fractional Brownian motion
 
 #H=0.3
@@ -53,7 +28,7 @@ library(numDeriv)
 #   return 2 * hurst * integrate
 # }
 
-# BM + noise
+# fBM + noise
 
 n <- 10^5
 preaverage <- function(obs, g, kapp) {
@@ -66,8 +41,6 @@ preaverage <- function(obs, g, kapp) {
   }
   ret
 }
-
-# kn <- floor(n ^ kapp)
 
 g <- function(x) {
   x^3
