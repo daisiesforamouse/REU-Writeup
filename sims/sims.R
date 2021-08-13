@@ -23,14 +23,11 @@ library(numDeriv)
 # sig2.est=sum((diff(fBM2)/n^(-H2.est))^2)/n
 
 
-# Take g(x) = x
-# eta <- function(hurst) {
-#   return 2 * hurst * integrate
-# }
-
 # fBM + noise
 
 n <- 10^5
+
+# Returns a list of preaveraged differences from some vector of observations; last n - kn elements are dropped
 preaverage <- function(obs, g, kapp) {
   intervals <- diff(obs)
   n <- length(intervals)
@@ -50,13 +47,12 @@ f <- function(x) {
   x^2
 }
 
-
 H <- 0.8
 kapp <- 2 / 3
 fBM <- fbm(H, n)
 
 rho <- 0.1
-obs <- fBM
+obs <- fBM + rnorm(length(fBM), mean = 0, sd = 1)
 obs.half <- obs[seq(1, length(obs), 2)]
 
 obs.pre <- preaverage(obs, g, kapp)
