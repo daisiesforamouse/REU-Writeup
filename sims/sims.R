@@ -40,19 +40,19 @@ preaverage <- function(obs, g, kapp) {
 }
 
 g <- function(x) {
-  x^3
+  1
 }
 
 f <- function(x) {
   x^2
 }
 
-H <- 0.8
-kapp <- 2 / 3
+H <- 0.3
+kapp <- 3 / 4
 fBM <- fbm(H, n)
 
 rho <- 0.1
-obs <- fBM + rnorm(length(fBM), mean = 0, sd = 1)
+obs <- fBM + rnorm(length(fBM), mean = 0, sd = rho)
 obs.half <- obs[seq(1, length(obs), 2)]
 
 obs.pre <- preaverage(obs, g, kapp)

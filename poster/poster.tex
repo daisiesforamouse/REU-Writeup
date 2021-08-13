@@ -129,7 +129,7 @@
           \begin{align*}
             \phantom{}
             \begin{aligned}
-      &\lim_{\epsilon \rightarrow 0}\lim_{n \rightarrow \infty}\E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ V(g)^{n,f}_T(Y) \right. \right. \right. - \left. \left. \left. f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^{2H}}\right) \right] \right| \right] = 0
+      &\lim_{\epsilon \rightarrow 0}\lim_{n \rightarrow \infty}\E \left[ \left| \frac{1}{n}\sum_{i=\left\lfloor n\epsilon \right\rfloor + 1}^{\left\lfloor nT \right\rfloor} \left[ V(g)^{n,f}_T(Y) -  f\left( \frac{\sigma_{\frac{i}{n}-\epsilon}\overline{B^H}(g)^{n,\epsilon}_i + \rho\overline{Z}(g)^n_i}{(k_n/n)^{H}}, \frac{\rho^2\widehat{Z}(g)^n_i}{(k_n/n)^{2H}}\right) \right] \right| \right] = 0
             \end{aligned}
           \end{align*}
           We now center to the conditional expectation:
@@ -147,13 +147,13 @@
         % \begin{block}{Sketch of the Proof (Cont.)}
         % \end{block}
         \begin{block}{Estimating \(H\)}
-          Changing the freqency of the averaging allows us to create an estimator for \(H\); consider taking \(f(x, y) = x^2\) and a suitable \(\kappa\) such that \(\Theta = 0\), such that 
+          Changing the freqency of the averaging allows us to create an estimator for \(H\); consider taking \(f(x, y) = x^2 - \frac{1}{2}y\) and a suitable \(\kappa\) such that \(\Theta = 0\), such that 
           \begin{align*}
             V(g)^{n,f}_T(Y), \ V(g)^{\frac{n}{2},f}_T(Y) &= \frac{2}{n}\sum_{i=1}^{\left\lfloor nT/2 \right\rfloor} \left(\frac{\overline{Y}(g)^{n/2}_i}{(2k_n/n)^H}\right)^2
           \end{align*}
           both converge in probability to \( \int_0^T \sigma^2\eta^H(g) ds\), so
           \[
-            \frac{1}{2} \log_2\left(\frac{\widetilde{V}(g)^{\frac{n}{2},f}_T(Y)}{\widetilde{V}(g)^{n,f}_T(Y)}\right) \overset{\mathbb{P}}{\rightarrow} H.
+            \frac{1}{2(1 - \kappa)} \log_2\left(\frac{\widetilde{V}(g)^{\frac{n}{2},f}_T(Y)}{\widetilde{V}(g)^{n,f}_T(Y)}\right) \overset{\mathbb{P}}{\rightarrow} H.
           \]
           where \(\widetilde{V}(g)^{n,f}_T(Y)\) is simply \(V(g)^{n,f}_T(Y)\) without the normalizing factor.
           Furthermore, we can estimate the integrated volatility:
@@ -162,14 +162,17 @@
           \]
         \end{block}
         \begin{block}{In Practice}
-          To compute such an estimator, one may take \(\kappa = \frac{2}{3}\) in order to guarantee that \(\Theta\) vanishes, in which case we can consistently (given large \(n\)) estimate \(H\) and \(\int_0^T \sigma_s^2ds\). Computing such estimators for simulated datasets in R is an ongoing effort, and associated code can be found at [4].
-        \end{block}
-        \begin{block}{Acknowledgements}
-          First, we would like to thank Dr. Carsten Chong for his guidance and support in this project before, during, and after the research, as well as the Columbia Mathematics Undergraduate Summer Research Program.
-        \end{block}
+          % To compute such an estimator, one may take \(\kappa = \frac{2}{3}\) in order to guarantee that \(\Theta\) vanishes, in which case we can consistently (given large \(n\)) estimate \(H\) and \(\int_0^T \sigma_s^2ds\).
+          Estimating simulated datasets with \(n = 10^5\) and random Hurst indices, the following is \(\hat{H}_b\) plotted against \(H\).
 
-        \begin{block}{References}
+          \begin{center}
+            \includegraphics[width=15cm]{./hests.png}
+          \end{center}
+          Consistent estimations of the volatility, for which convergence is slow, is an ongoing effort; related code may be found at [4].
+        \end{block}
+        \begin{block}{Acknowledgements and References}
           {\footnotesize
+            First, we would like to thank Dr. Carsten Chong for his guidance and support in this project before, during, and after the research, as well as the Columbia Mathematics Undergraduate Summer Research Program.
           \begin{enumerate}
             \item Jacod, J., Li, Y., Mykland, P. A., Podolskij, M., Vetter, M.: Microstructure noise in the continuous case: the pre-averaging approach. Stochastic Process. Appl. 119 (2009), no. 7, 2249-2276.
             \item Corcuera, J. M., Hedevang, E., Pakkanen, M. S., Podolskij, M.: Asymptotic theory for Brownian semi-stationary processes with application to turbulence. Stochastic Process. Appl. 123 (2013), no. 7, 2552-2574.
