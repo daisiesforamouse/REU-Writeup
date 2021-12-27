@@ -25,7 +25,7 @@ library(numDeriv)
 
 # fBM + noise
 
-n <- 10^5
+n <- 10
 
 # Returns a list of preaveraged differences from some vector of observations; last n - kn elements are dropped
 preaverage <- function(obs, g, kapp) {
@@ -33,22 +33,22 @@ preaverage <- function(obs, g, kapp) {
   n <- length(intervals)
   kn <- floor(n ^ kapp)
   ret <- g(1 / kn) * intervals[1:(n - kn + 1)]
-  for (j in range(2, kn)) {
+  for (j in 2:kn) {
     ret <- ret + g(j / kn) * intervals[j:(n - kn + j)]
   }
   ret
 }
 
 g <- function(x) {
-  1
+  x^3
 }
 
 f <- function(x) {
   x^2
 }
 
-H <- 0.3
-kapp <- 3 / 4
+H <- 0.8
+kapp <- 2 / 3
 fBM <- fbm(H, n)
 
 rho <- 0.1
