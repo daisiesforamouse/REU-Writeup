@@ -1,4 +1,5 @@
-function results = parse_data(data, filter, Hs)
+function results = parse_data(data_file, filter, Hs, rho, sigma)
+    data = table2array(readtable(data_file));
     dims = size(data);
     results = zeros(length(Hs), 2 * dims(2) - 1);
     for i = 1:length(Hs)
