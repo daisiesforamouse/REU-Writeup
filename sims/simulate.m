@@ -12,21 +12,18 @@ function simulate(filename, n, num_obs, Hs, rho, silent)
             if ~silent
                 fprintf('H = %f, run %d\n', H, i);
             end
-            fBm = wfbm(H, num_obs) / (num_obs .^ H);
-            obs = fBm + normrnd(0, rho, [1,num_obs]);
+            num_obs = 2^ceil(log2(num_obs));
+            fBm = fbm1d(H, num_obs, 1)';
+            obs = fBm + normrnd(0, rho, [1,num_obs + 1]);
             ests(1, 1) = H;
             [ests(1, 2), ests(1, 3), ests(1, 4)] = estimate(obs, @symmetric_power, ...
-                                                            @symmetric_power_deriv, ...
-                                                            @symmetric_power_deriv2, 100);
+                                                            @symmetric_power_deriv, 100);
             [ests(1, 5), ests(1, 6), ests(1, 7)] = estimate(obs, @symmetric_power, ...
-                                                            @symmetric_power_deriv, ...
-                                                            @symmetric_power_deriv2, 1);
+                                                            @symmetric_power_deriv, 1);
             [ests(1, 8), ests(1, 9), ests(1, 10)] = estimate(obs, @triangle, ...
-                                                             @triangle_deriv, ...
-                                                             @triangle_deriv2, 100);
+                                                             @triangle_deriv, 100);
             [ests(1, 11), ests(1, 12), ests(1, 13)] = estimate(obs, @triangle, ...
-                                                               @triangle_deriv, ...
-                                                               @triangle_deriv2, 1);
+                                                               @triangle_deriv, 1);
             writematrix(ests, filename, 'WriteMode', 'append');
         end
     end
@@ -49,11 +46,7 @@ function ret = triangle(x)
 end
 
 function ret = triangle_deriv(x)
-    if x < 0.5
-        ret = 2 + 0 .* x; % to make return value the correct dimension.
-    else
-        ret = -2 + 0 .* x;
-    end
+    ret = -4 * (heaviside(x - 0.5) - 0.5);
 end
 
 function ret = triangle_deriv2(x)
