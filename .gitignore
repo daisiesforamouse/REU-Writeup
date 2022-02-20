@@ -277,3 +277,6 @@ TSWLatexianTemp*
 
 # Misc
 .DS_Store
+
+# Zips
+.zip

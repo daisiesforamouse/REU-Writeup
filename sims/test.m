@@ -1,10 +1,9 @@
 function [est_H, est_rho, est_sigma] = test(num_obs, H, rho)
-    ret = 1/3;
     num_obs = 2^ceil(log2(num_obs));
     fBm = fbm1d(H, num_obs, 1)';
     obs = fBm + normrnd(0, rho, [1,num_obs + 1]);
     [est_H, est_rho, est_sigma] = estimate(obs, @symmetric_power, ...
-                                           @symmetric_power_deriv, 200);
+                                           @symmetric_power_deriv, 200, 0);
 end
 
 function ret = symmetric_power(x)
