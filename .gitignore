@@ -280,6 +280,3 @@ TSWLatexianTemp*
 
 # Zips
 .zip
-
-# output data
-*.csv
