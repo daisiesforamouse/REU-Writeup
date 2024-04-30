@@ -1,6 +1,6 @@
 library(tidyverse)
 
-ests <- tibble(read.csv("./sims/739371.0655_output.csv")) %>% group_by(H)
+ests <- tibble(read.csv("./sims/analysis/output.csv")) %>% group_by(H)
 
 outcome_names <- names(ests)[startsWith(names(ests), "est")]
 
@@ -10,7 +10,10 @@ ests_sd <- ests %>% summarize_at(outcome_names, sd, na.rm = TRUE)
 H_error <- ests[, grep("H", names(ests))] %>%
   mutate(across(matches("H"), ~ (. - H)^2)) %>%
   summarize_all(function(x) sqrt(mean(x, na.rm = TRUE)))
-  
+
+# ok sorry this is confusing
+# rho in the output is actually rho, e.g. the sd of the noise but
+# sigma in the output is actually sigma^2, e.g. the **variance** of the fBM.
 rhosq_error <- ests[, c(1, grep("rho", names(ests)))] %>%
   mutate(across(matches("rho"), ~ (.^2 - rho^2)^2)) %>%
   summarize_all(function(x) sqrt(mean(x, na.rm = TRUE)))
