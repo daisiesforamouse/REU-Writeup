@@ -1,19 +1,27 @@
 library(tidyverse)
 
-ests <- tibble(read.csv("./sims/analysis/output.csv")) %>% group_by(H)
-oldests <- tibble(read.csv("./sims/analysis/oldoutput.csv")) %>% group_by(H)
-newests <- tibble(read.csv("./sims/analysis/newoutput.csv")) %>% group_by(H)
+ests <- tibble(read.csv("./sims/739371.0655_output.csv")) %>% group_by(H)
 
 outcome_names <- names(ests)[startsWith(names(ests), "est")]
 
 ests_mean <- ests %>% summarize_at(outcome_names, mean, na.rm = TRUE)
 ests_sd <- ests %>% summarize_at(outcome_names, sd, na.rm = TRUE)
 
-oldests_mean <- oldests %>% summarize_at(outcome_names, mean, na.rm = TRUE)
-oldests_sd <- oldests %>% summarize_at(outcome_names, sd, na.rm = TRUE)
+H_error <- ests[, grep("H", names(ests))] %>%
+  mutate(across(matches("H"), ~ (. - H)^2)) %>%
+  summarize_all(function(x) sqrt(mean(x, na.rm = TRUE)))
+  
+rhosq_error <- ests[, c(1, grep("rho", names(ests)))] %>%
+  mutate(across(matches("rho"), ~ (.^2 - rho^2)^2)) %>%
+  summarize_all(function(x) sqrt(mean(x, na.rm = TRUE)))
 
-newests_mean <- newests %>% summarize_at(outcome_names, mean, na.rm = TRUE)
-newests_sd <- newests %>% summarize_at(outcome_names, sd, na.rm = TRUE)
+sigmasq_error <- ests[, c(1, grep("sigma", names(ests)))] %>%
+  mutate(across(matches("sigma"), ~ (. - sigma)^2)) %>%
+  summarize_all(function(x) sqrt(mean(x, na.rm = TRUE)))
+
+## ests_rho <- ests %>% summarize_at(names(ests)[grep("rho", names(ests))], function(x) (x - ), na.rm = TRUE)
+
+# previously used to compute graphics
 
 ## ests$est_H_adapted_power_error <- ests$est_H_adapted_power - ests$H
 ## ests.est_H_adapted_power_summary <- data_summary(ests, "est_H_adapted_power_error", c("H"))
